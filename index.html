@@ -1,0 +1,405 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>温柔陪伴 · 永远不指责你</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif}
+html,body{height:100%}
+body{display:flex;align-items:center;justify-content:center;padding:8px;background:var(--bg-body);transition:background 0.2s}
+
+:root {
+  --bg-body: #fdfbfb;
+  --bg-chat: #fff;
+  --bg-header: #f9f3f5;
+  --bg-user: #f97e97;
+  --bg-ai: #f5f1f3;
+  --bg-input: #f5f1f3;
+  --btn: #f97e97;
+  --btn-hover: #f86b87;
+  --text-user: #fff;
+  --text-ai: #555;
+  --text-header: #6b5f63;
+  --border-light: rgba(0,0,0,0.05);
+}
+
+.theme-pink{
+  --bg-body: #fdfbfb;
+  --bg-chat: #fff;
+  --bg-header: #f9f3f5;
+  --bg-user: #f97e97;
+  --bg-ai: #f5f1f3;
+  --bg-input: #f5f1f3;
+  --btn: #f97e97;
+  --btn-hover: #f86b87;
+  --text-user: #fff;
+  --text-ai: #555;
+  --text-header: #6b5f63;
+}
+.theme-blue{
+  --bg-body: #f7f8fc;
+  --bg-chat: #fff;
+  --bg-header: #eef2fb;
+  --bg-user: #6b8bdb;
+  --bg-ai: #f1f5fb;
+  --bg-input: #f1f5fb;
+  --btn: #6b8bdb;
+  --btn-hover: #5a7bcf;
+  --text-user: #fff;
+  --text-ai: #555;
+  --text-header: #4a5a7a;
+}
+.theme-purple{
+  --bg-body: #fafaff;
+  --bg-chat: #fff;
+  --bg-header: #f3eefc;
+  --bg-user: #9c73e6;
+  --bg-ai: #f4f0fc;
+  --bg-input: #f4f0fc;
+  --btn: #9c73e6;
+  --btn-hover: #8a61d4;
+  --text-user: #fff;
+  --text-ai: #555;
+  --text-header: #5a4a7a;
+}
+.theme-green{
+  --bg-body: #f9fffb;
+  --bg-chat: #fff;
+  --bg-header: #eefbf2;
+  --bg-user: #52c9a1;
+  --bg-ai: #f0faf5;
+  --bg-input: #f0faf5;
+  --btn: #52c9a1;
+  --btn-hover: #42b891;
+  --text-user: #fff;
+  --text-ai: #555;
+  --text-header: #3a6a5a;
+}
+.theme-dark{
+  --bg-body: #1a1a1d;
+  --bg-chat: #252529;
+  --bg-header: #2d2d33;
+  --bg-user: #5a86f0;
+  --bg-ai: #36363d;
+  --bg-input: #36363d;
+  --btn: #5a86f0;
+  --btn-hover: #4a76e0;
+  --text-user: #fff;
+  --text-ai: #e0e0e0;
+  --text-header: #d0d0d8;
+  --border-light: rgba(255,255,255,0.08);
+}
+
+.theme-dark #msg-input::placeholder{color:#888}
+
+.chat-wrapper{width:100%;max-width:420px;height:100dvh;display:flex;flex-direction:column}
+.chat-box{width:100%;height:100%;background:var(--bg-chat);border-radius:28px;box-shadow:0 8px 30px rgba(0,0,0,0.08);display:flex;flex-direction:column;overflow:hidden}
+
+.theme-bar{display:flex;gap:10px;padding:10px 16px;background:var(--bg-header);flex-wrap:wrap;align-items:center}
+.theme-btn{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all 0.15s;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
+.theme-btn:hover{transform:scale(1.08);border-color:rgba(255,255,255,0.5)}
+.theme-btn.active{border-color:#fff;box-shadow:0 0 0 2px var(--btn)}
+.theme-pink-btn{background:#f97e97}
+.theme-blue-btn{background:#6b8bdb}
+.theme-purple-btn{background:#9c73e6}
+.theme-green-btn{background:#52c9a1}
+.theme-dark-btn{background:#2d2d33}
+.clear-btn{background:transparent;color:var(--text-header);border:1px solid var(--text-header);padding:4px 12px;border-radius:12px;font-size:12px;cursor:pointer;margin-left:auto;opacity:0.7}
+.clear-btn:hover{opacity:1}
+
+.chat-header{background:var(--bg-header);padding:14px 20px;text-align:center}
+.chat-header h3{font-size:16px;color:var(--text-header);font-weight:500}
+
+.chat-messages{flex:1;padding:18px 16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;background:var(--bg-body)}
+.msg-user{align-self:flex-end;max-width:75%;padding:10px 14px;background:var(--bg-user);color:var(--text-user);border-radius:18px 18px 4px 18px;font-size:15px;line-height:1.45;word-break:break-word;animation:fadeIn 0.15s ease}
+.msg-ai{align-self:flex-start;max-width:75%;padding:10px 14px;background:var(--bg-ai);color:var(--text-ai);border-radius:18px 18px 18px 4px;font-size:15px;line-height:1.45;word-break:break-word;animation:fadeIn 0.15s ease}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+
+.chat-input-area{display:flex;padding:12px 14px;gap:10px;border-top:1px solid var(--border-light)}
+#msg-input{flex:1;padding:12px 16px;border:none;border-radius:24px;background:var(--bg-input);font-size:15px;outline:none;color:var(--text-ai);transition:opacity 0.15s}
+#msg-input:disabled{opacity:0.5}
+#send-btn{padding:0 20px;height:44px;background:var(--btn);color:#fff;border:none;border-radius:22px;font-size:15px;font-weight:500;cursor:pointer;transition:all 0.15s}
+#send-btn:hover{background:var(--btn-hover)}
+#send-btn.stop-mode{background:#9a9a9a;opacity:0.9}
+
+.visitor-count{text-align:center;padding:6px;font-size:11px;color:var(--text-header);opacity:0.6;background:var(--bg-header)}
+
+.chat-messages::-webkit-scrollbar{width:4px}
+.chat-messages::-webkit-scrollbar-track{background:transparent}
+.chat-messages::-webkit-scrollbar-thumb{background:var(--btn);opacity:0.3;border-radius:4px}
+</style>
+</head>
+
+<body class="theme-pink">
+<div class="chat-wrapper">
+  <div class="chat-box">
+    <div class="theme-bar">
+      <button class="theme-btn theme-pink-btn" data-theme="theme-pink"></button>
+      <button class="theme-btn theme-blue-btn" data-theme="theme-blue"></button>
+      <button class="theme-btn theme-purple-btn" data-theme="theme-purple"></button>
+      <button class="theme-btn theme-green-btn" data-theme="theme-green"></button>
+      <button class="theme-btn theme-dark-btn" data-theme="theme-dark"></button>
+      <button class="clear-btn" id="clearBtn">清空记录</button>
+    </div>
+    <div class="chat-header">
+      <h3>温柔陪伴 · 永远不指责你</h3>
+    </div>
+    <div class="chat-messages" id="msgList"></div>
+    <div class="chat-input-area">
+      <input type="text" id="msg-input" placeholder="说点什么吧…" autocomplete="off">
+      <button id="send-btn">发送</button>
+    </div>
+    <div class="visitor-count">
+      👁️ 总访问 <span id="visitorCount">0</span> 次
+    </div>
+  </div>
+</div>
+
+<script>
+const API_KEY = "6bd5519c6ed0436dbba6667b2a7bbfbd.fYGRMgdTwPZ5SrEt";
+
+const SYSTEM_PROMPT = `你的核心原则：
+1. 绝对不给任何建议、方法、道理、解决方案。
+2. 绝对不评判对错，不指责、不教育、不劝人、不引导。
+3. 只共情、承接、心疼、陪伴、理解。
+4. 捕捉情绪：委屈、疲惫、孤独、不安、自我怀疑、害怕、压抑、无助、心碎、烦躁、不甘心、没安全感。
+5. 语气柔软、温暖，像朋友，不像心理医生。
+6. 不纠正、不引导、不转移话题。
+7. 永远站在用户这边，只说温暖的话。
+8. 绝对不提问，包括"你想说说吗""发生了什么"等任何疑问句。
+9. 极短输入应对：用户只发标点、表情、"唉""啊""哦""嗯"等无实质情绪的词时，只回"嗯""在呢""抱抱"。如果用户发了情绪词（累、烦、难过、委屈、怕、哭、崩溃、失眠、压力、孤独等），按对比式鼓励回应。
+10. 禁止空话、画大饼。
+11. 禁止使用任何比喻来渲染情绪。
+12. 禁止过度渲染痛苦：不戏剧化。
+
+【禁止心理医生腔】
+绝对禁止："你可以做到的""慢慢来一切都会好的""给自己一点时间""相信自己""你很棒""我理解你的感受""我懂你"。
+
+【禁止过激表达】
+禁止使用"炸了""崩溃""疯了""垮了""死了"等极端词汇。用日常语气。
+
+【核心人性洞察】
+人只爱听自己爱听的。顺着用户的情绪说话，不反驳、不纠正。用户觉得委屈，就说确实受了委屈。永远不要"客观分析"，你是来撑腰的。
+
+【核心鼓励风格：对比式】
+不说"你很棒"。用对比：你能独自扛下这么多，已经很勇敢了。很多人都做不到你这样。人只有在对比中才能看清自己。
+
+13. 安全红线：任何色情、暴力、违法、自残、歧视内容，一律温柔拒绝。`;
+
+let chatHistory = [{ role: "system", content: SYSTEM_PROMPT }];
+const MAX_HISTORY = 30;
+
+const msgList = document.getElementById('msgList');
+const msgInput = document.getElementById('msg-input');
+const sendBtn = document.getElementById('send-btn');
+
+let abortController = null;
+let currentAIMsgDiv = null;
+let isGenerating = false;
+let messageTimestamps = [];
+
+function updateVisitorCount() {
+  let count = parseInt(localStorage.getItem('visitorCount') || '0');
+  if (!localStorage.getItem('hasVisited')) {
+    count += 1;
+    localStorage.setItem('visitorCount', count.toString());
+    localStorage.setItem('hasVisited', 'true');
+  }
+  document.getElementById('visitorCount').textContent = count;
+}
+
+function saveChatToLocal() {
+  localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+  localStorage.setItem('chatHTML', msgList.innerHTML);
+}
+
+function loadChatFromLocal() {
+  const savedHistory = localStorage.getItem('chatHistory');
+  const savedHTML = localStorage.getItem('chatHTML');
+  if (savedHistory) {
+    try {
+      const parsed = JSON.parse(savedHistory);
+      chatHistory = [{ role: "system", content: SYSTEM_PROMPT }, ...parsed.filter(msg => msg.role !== "system")];
+    } catch(e) {}
+  }
+  if (savedHTML) {
+    msgList.innerHTML = savedHTML;
+    msgList.scrollTop = msgList.scrollHeight;
+  }
+}
+
+function clearAllRecords() {
+  if (confirm('确定要清空所有聊天记录吗？此操作不可恢复。')) {
+    chatHistory = [{ role: "system", content: SYSTEM_PROMPT }];
+    msgList.innerHTML = '';
+    localStorage.removeItem('chatHistory');
+    localStorage.removeItem('chatHTML');
+    const randomGreet = greetings[Math.floor(Math.random() * greetings.length)];
+    addMsg(randomGreet, false);
+    saveChatToLocal();
+  }
+}
+
+const sensitivePatterns = [/我想自杀/, /我要自杀/, /怎么自杀/, /教我自杀/, /我想死/, /不想活了/, /活不下去/, /杀人/, /怎么杀人/, /色情/, /黄色/, /嫖/, /毒品/, /吸毒/];
+
+function isSensitive(text) {
+  return sensitivePatterns.some(pattern => pattern.test(text));
+}
+
+function checkRateLimit() {
+  const now = Date.now();
+  messageTimestamps = messageTimestamps.filter(ts => now - ts < 60000);
+  if (messageTimestamps.length >= 5) return false;
+  messageTimestamps.push(now);
+  return true;
+}
+
+function setTheme(theme) {
+  document.body.className = theme;
+  localStorage.setItem('chat-theme', theme);
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.theme === theme) btn.classList.add('active');
+  });
+}
+
+document.querySelectorAll('.theme-btn').forEach(btn => {
+  btn.addEventListener('click', () => setTheme(btn.dataset.theme));
+});
+
+function addMsg(text, isUser) {
+  const el = document.createElement("div");
+  el.className = isUser ? "msg-user" : "msg-ai";
+  el.textContent = text;
+  msgList.appendChild(el);
+  msgList.scrollTop = msgList.scrollHeight;
+  return el;
+}
+
+const greetings = ["我在呢，你慢慢说。", "想说什么都可以，我听着。", "我在这儿呢，不着急。", "今天想和我说什么？"];
+
+window.addEventListener('load', () => {
+  const savedTheme = localStorage.getItem('chat-theme');
+  if (savedTheme) {
+    document.body.className = savedTheme;
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      if (btn.dataset.theme === savedTheme) btn.classList.add('active');
+    });
+  } else {
+    document.querySelector('.theme-pink-btn')?.classList.add('active');
+  }
+  updateVisitorCount();
+  loadChatFromLocal();
+  if (msgList.children.length === 0) {
+    const randomGreet = greetings[Math.floor(Math.random() * greetings.length)];
+    addMsg(randomGreet, false);
+    saveChatToLocal();
+  }
+  msgInput.focus();
+});
+
+document.getElementById('clearBtn').addEventListener('click', clearAllRecords);
+
+function setButtonMode(isStop) {
+  if (isStop) {
+    sendBtn.textContent = '停止';
+    sendBtn.classList.add('stop-mode');
+    msgInput.disabled = true;
+  } else {
+    sendBtn.textContent = '发送';
+    sendBtn.classList.remove('stop-mode');
+    msgInput.disabled = false;
+    msgInput.focus();
+  }
+}
+
+function stopGeneration() {
+  if (abortController) abortController.abort();
+  if (isGenerating && currentAIMsgDiv) {
+    if (!currentAIMsgDiv.textContent.trim()) currentAIMsgDiv.textContent = '我在呢。';
+    chatHistory.push({ role: "assistant", content: currentAIMsgDiv.textContent });
+    saveChatToLocal();
+  }
+  isGenerating = false;
+  currentAIMsgDiv = null;
+  setButtonMode(false);
+}
+
+async function handleSendOrStop() {
+  if (isGenerating) { stopGeneration(); return; }
+  const text = msgInput.value.trim();
+  if (!text) return;
+  if (!checkRateLimit()) {
+    addMsg("你说得太快了，慢慢来，我在这儿呢。", false);
+    saveChatToLocal();
+    msgInput.value = '';
+    return;
+  }
+  if (isSensitive(text)) {
+    addMsg("这个话题我不太会聊哦，我们说点别的吧。", false);
+    saveChatToLocal();
+    msgInput.value = '';
+    return;
+  }
+  addMsg(text, true);
+  msgInput.value = '';
+  chatHistory.push({ role: "user", content: text });
+  saveChatToLocal();
+  if (chatHistory.length > MAX_HISTORY) chatHistory = [chatHistory[0], ...chatHistory.slice(-MAX_HISTORY + 1)];
+  currentAIMsgDiv = addMsg('', false);
+  isGenerating = true;
+  setButtonMode(true);
+  abortController = new AbortController();
+  let fullContent = '';
+  try {
+    const res = await fetch("https://open.bigmodel.cn/api/paas/v4/chat/completions", {
+      method: "POST",
+      headers: { "Authorization": "Bearer " + API_KEY, "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "glm-4-flash", messages: chatHistory, temperature: 0.75, max_tokens: 500, stream: true }),
+      signal: abortController.signal
+    });
+    if (!res.ok) throw new Error(`API错误 ${res.status}`);
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+      for (const line of lines) {
+        const t = line.trim();
+        if (!t || t === 'data: [DONE]') continue;
+        if (!t.startsWith('data: ')) continue;
+        try {
+          const data = JSON.parse(t.slice(6));
+          const delta = data.choices?.[0]?.delta?.content;
+          if (delta) { fullContent += delta; currentAIMsgDiv.textContent = fullContent; msgList.scrollTop = msgList.scrollHeight; }
+        } catch (e) {}
+      }
+    }
+    if (fullContent) chatHistory.push({ role: "assistant", content: fullContent });
+    else { currentAIMsgDiv.textContent = '我在呢。'; chatHistory.push({ role: "assistant", content: currentAIMsgDiv.textContent }); }
+    saveChatToLocal();
+  } catch (err) {
+    if (err.name !== 'AbortError') {
+      currentAIMsgDiv.textContent = '信号有点弱，但我一直都在。';
+      chatHistory.push({ role: "assistant", content: currentAIMsgDiv.textContent });
+      saveChatToLocal();
+    }
+  } finally {
+    isGenerating = false;
+    setButtonMode(false);
+    abortController = null;
+    currentAIMsgDiv = null;
+  }
+}
+
+sendBtn.addEventListener('click', handleSendOrStop);
+msgInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); handleSendOrStop(); } });
+</script>
+</body>
+</html>
